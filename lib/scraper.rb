@@ -7,18 +7,18 @@ class Scraper
   attr_accessor :parse_page
 
   def initialize
-    doc = HTTParty.get('https://learn.madetech.com/katas/')
+    doc = HTTParty.get('https://www.bbc.co.uk/news')
     @parse_page ||= Nokogiri::HTML(doc)
   end
 
   def names
-    @parse_page.css('li').css('a').children.map(&:text)
+    @parse_page.css('h3').children.map(&:text)
   end
 
   scraper = Scraper.new
   names = scraper.names
 
-  puts 'Katas:'
-  puts '~~~~~~'
-  (0...names.size).each { |index| puts names[index].to_s }
+  puts 'Headlines:'
+  puts '~~~~~~~~~~'
+  (0...names.size).each { |index| puts "#{index}: #{names[index]}" }
 end
